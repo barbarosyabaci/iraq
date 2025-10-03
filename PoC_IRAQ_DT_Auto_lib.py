@@ -81,8 +81,8 @@ def LTE_coverage():
         path = r"C:\Users\barba\Documents\01_Job\2024_CDR\CSV Dusseldorf"
         uploaded_files_names.append("20240715_Dusseldorf_CDRData_1N1.csv")
         uploaded_files_names.append("20240715_Dusseldorf_CDRData_O2.csv")
-        dataframes.append(pd.read_csv(path + r"\20240715_Dusseldorf_CDRData_1N1_filtered.csv", low_memory=False))
-        dataframes.append(pd.read_csv(path + r"\20240715_Dusseldorf_CDRData_O2_filtered.csv", low_memory=False))
+        dataframes.append(pd.read_csv(r"\20240715_Dusseldorf_CDRData_1N1_filtered.csv", low_memory=False))
+        dataframes.append(pd.read_csv(r"\20240715_Dusseldorf_CDRData_O2_filtered.csv", low_memory=False))
 
         df_combined = pd.concat(dataframes, ignore_index=False)
 
@@ -395,5 +395,6 @@ def WCDMA3G_coverage():
             with col2:
                 pidal2.plot_color_patches(color_patches)
                 parameter_plot_single(dataframes[1], parameter, chart_type, uploaded_files_names[1], lat, lon, zoom_level, color_function, height_pydeck)  # dataframes[1].to_csv(r"C:\Users\barba\Downloads\20240715_Dusseldorf_CDRData_O2_short.csv")
+
 
 
