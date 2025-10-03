@@ -1,6 +1,5 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
-import RAN_AA_PoC_lib as raapoc
 
 # Set page configuration
 st.set_page_config(page_title="Drive Test Analytics Automation Suite for Smart RAN", layout="wide", initial_sidebar_state="expanded", page_icon="📶")
@@ -159,10 +158,11 @@ section = menu_sections[selected]
 # Display main section title
 st.title(section["title"])
 
-config = raapoc.read_config_file(r'C:\Users\barba\Documents\01_Job\2025_Predictive_Tool\Predran_Configuration.csv')
+# config = raapoc.read_config_file(r'C:\Users\barba\Documents\01_Job\2025_Predictive_Tool\Predran_Configuration.csv')
 
 if selected == "Dashboard":
-    raapoc.dashboard(config)
+    a = 1
+    # raapoc.dashboard(config)
 
 for subsection, content in section["subsections"].items():
     st.subheader(subsection)
@@ -171,14 +171,19 @@ for subsection, content in section["subsections"].items():
         st.write(i)
         with st.expander("Click to expand/Collapse", expanded=False):  # plain text title, not markdown
             if i == "Clutter-Weighted Population Raster":
-                raapoc.display_population_map(config)
+                a =1
+                # raapoc.display_population_map(config)
             if i == "Mapinfo TAB grid vector file from RF planning tools":
-                raapoc.display_pred(config)
+                a = 1
+                # raapoc.display_pred(config)
             if i =="Generate site options in high-need zones":
-                raapoc.recommendation_engine_v3(config)
+                a = 1
+                # raapoc.recommendation_engine_v3(config)
             if i == "xDR spatial traffic load":
-                raapoc.traffic_load(config)
+                a = 1
+                # raapoc.traffic_load(config)
             if i == "Excel or CSV including RSRP":
-                raapoc.display_rsrp_data(config)
+                a = 1
+                # raapoc.display_rsrp_data(config)
             else:
                 st.write("")
