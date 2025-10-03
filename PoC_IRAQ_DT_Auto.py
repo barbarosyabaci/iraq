@@ -1,80 +1,16 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
+import PoC_IRAQ_DT_Auto_lib as pidtal
 
 # Set page configuration
 st.set_page_config(page_title="Drive Test Analytics Automation Suite for Smart RAN", layout="wide", initial_sidebar_state="expanded", page_icon="📶")
 
+# config = pidtal.read_config_file(r'C:\Users\barba\Documents\01_Job\2025_Predictive_Tool\Predran_Configuration.csv')
 # Define menu structure
-
-menu_sections_old = {
-    "Dashboard": {
-        "title": "🏠 Network Overview", # "Predictive Site Planning Tool, 🏠 Dashboard / Home"
-        "subsections": { },
-        "icon": "home"
-    },
-    "Data Upload": {
-        "title": "📁 Upload Network & Planning Data",
-        "subsections": {
-            "Coverage Prediction": "Mapinfo TAB grid vector file from RF planning tools",
-            "KPI Data": "Excel or CSV including RSRP, RSRQ, HOSR, HOF",
-            "Traffic Load Raster": "xDR spatial traffic load",
-            "CEM Data": "CEM-based data",
-            "Drive Test Data": "Measurements with coordinates",
-            "Population Grid": "Clutter-Weighted Population Raster"
-        },
-        "icon": "upload"
-    },
-    "Scoring Configuration": {
-        "title": "⚙️ Scoring & Threshold Settings",
-        "subsections": {
-            "Coverage Threshold": "Set RSRP/RSRQ scoring bands",
-            "Handover Threshold": "Set thresholds for HOSR / HOF",
-            "Traffic Density": "Define percentile or absolute traffic level for hotspots",
-            "Custom KPI Weighting": "Adjust weights for multi-KPI scoring logic"
-        },
-        "icon": "sliders"
-    },
-    "Visualization": {
-        "title": "🗺️ Network & Map Visualizations",
-        "subsections": {
-            "Layer Selection": "Toggle heatmaps, overlays, grid scoring",
-            "Map Type": "Satellite / Street / Terrain base layers",
-            "Site Overlays": "Candidate sites, existing sites, POIs"
-        },
-        "icon": "map"
-    },
-    "Recommendation Engine": {
-        "title": "📍 Site Generation & Recommendations",
-        "subsections": {
-            "Candidate Generation": "Generate site options in high-need zones",
-            "Ranking Criteria": "Rank by expected user gain, coverage uplift, HO improvement",
-            "Backhaul Constraints": "Optional filter for fiber/backhaul overlay"
-        },
-        "icon": "compass"
-    },
-    "Export & Reports": {
-        "title": "📤 Export Results & Reports",
-        "subsections": {
-            "Data Exports": "Download CSV / GeoJSON of site list",
-            "PDF Reports": "Auto-generate site planning reports with maps",
-            "Map Snapshots": "Download visual layers as images"
-        },
-        "icon": "download"
-    },
-    "Help": {
-        "title": "ℹ️ Help & User Guide",
-        "subsections": {
-            "About the Tool": "Overview of tool capabilities and purpose",
-            "Sample Workflow": "Step-by-step usage instructions",
-            "Contact & Support": "How to get help or report an issue"
-        },
-        "icon": "info"
-    }
-}
 
 menu_sections = {
     "Dashboard": {
-        "title": "🏠 Drive Test Automation Overview",
+        "title": "🏠 Drive Test Analytics Automation Suite for Smart RAN",
         "subsections": {},
         "icon": "home"
     },
@@ -91,7 +27,8 @@ menu_sections = {
         "subsections": {
             "2G Coverage": "Voice call coverage & quality KPIs",
             "3G Coverage": "CS + PS call stats and KPIs",
-            "4G Coverage": "LTE coverage and RSRP/RSRQ metrics"
+            "4G Coverage": "LTE coverage and RSRP/RSRQ metrics",
+            "5G Coverage": "NR coverage and RSRP/RSRQ metrics"
         },
         "icon": "signal"
     },
@@ -170,15 +107,18 @@ for subsection, content in section["subsections"].items():
     for i in items:
         st.write(i)
         with st.expander("Click to expand/Collapse", expanded=False):  # plain text title, not markdown
-            if i == "Clutter-Weighted Population Raster":
-                a =1
-                # raapoc.display_population_map(config)
-            if i == "Mapinfo TAB grid vector file from RF planning tools":
-                a = 1
-                # raapoc.display_pred(config)
-            if i =="Generate site options in high-need zones":
-                a = 1
-                # raapoc.recommendation_engine_v3(config)
+            if i == "LTE coverage and RSRP/RSRQ metrics":
+                st.write("LTE coverage and RSRP/RSRQ metrics")
+                pidtal.LTE_coverage()
+            if i == "NR coverage and RSRP/RSRQ metrics":
+                st.write("NR coverage and RSRP/RSRQ metrics")
+                pidtal.NR_coverage()
+            if i == "Voice call coverage & quality KPIs":
+                st.write("Voice call coverage & quality KPIs")
+                pidtal.GSM_coverage()
+            if i =="CS + PS call stats and KPIs":
+                st.write("CS + PS call stats and KPIs")
+                pidtal.WCDMA3G_coverage()
             if i == "xDR spatial traffic load":
                 a = 1
                 # raapoc.traffic_load(config)
