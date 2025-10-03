@@ -249,7 +249,7 @@ def GSM_coverage():
 
     selected_parameters = ["LTE RSRQ", "LTE RSRP", "LTE SINR", "LTE Throughput"]
 
-    if st.button("Show LTE Plots and Statistics in comparison view", key = "3gplots"):
+    if st.button("Show GSM Plots and Statistics in comparison view", key = "3gplots"):
         st.title("Modulation Types vs Througput Charts")
         # uploaded_file = st.file_uploader("Choose input CSV files to process", type="csv", accept_multiple_files=True, key="u15")
 
@@ -395,6 +395,7 @@ def WCDMA3G_coverage():
             with col2:
                 pidal2.plot_color_patches(color_patches)
                 parameter_plot_single(dataframes[1], parameter, chart_type, uploaded_files_names[1], lat, lon, zoom_level, color_function, height_pydeck)  # dataframes[1].to_csv(r"C:\Users\barba\Downloads\20240715_Dusseldorf_CDRData_O2_short.csv")
+
 
 
 
