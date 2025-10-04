@@ -35,6 +35,7 @@ menu_sections = {
     "Data KPIs": {
         "title": "📊 Data Service KPIs",
         "subsections": {
+            "General Data Test": "Network Test Summary",
             "Ping": "Latency & round-trip time measurements",
             "HTTP Browsing": "Page load success and response time",
             "HTTP Download": "Throughput and session stats for DL",
@@ -98,8 +99,8 @@ st.title(section["title"])
 # config = raapoc.read_config_file(r'C:\Users\barba\Documents\01_Job\2025_Predictive_Tool\Predran_Configuration.csv')
 
 if selected == "Dashboard":
-    a = 1
-    # raapoc.dashboard(config)
+    pidtal.dashboard()
+
 
 for subsection, content in section["subsections"].items():
     st.subheader(subsection)
@@ -119,11 +120,15 @@ for subsection, content in section["subsections"].items():
             if i =="CS + PS call stats and KPIs":
                 st.write("CS + PS call stats and KPIs")
                 pidtal.WCDMA3G_coverage()
-            if i == "xDR spatial traffic load":
-                a = 1
-                # raapoc.traffic_load(config)
-            if i == "Excel or CSV including RSRP":
-                a = 1
-                # raapoc.display_rsrp_data(config)
+            if i == "Network Test Summary":
+                pidtal.data_kpi_general()
+            if i == "Throughput and session stats for DL":
+                pidtal.data_kpi_http_dl()
+            if i == "Latency & round-trip time measurements":
+                pidtal.data_kpi_ping()
+            if i == "Page load success and response time":
+                pidtal.data_kpi_brw()
+            if i == "Throughput and session stats for UL":
+                pidtal.data_kpi_http_ul()
             else:
                 st.write("")
