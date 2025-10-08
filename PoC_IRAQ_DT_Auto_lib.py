@@ -371,8 +371,8 @@ def GSM_coverage():
         path = r"C:\Users\barba\Documents\01_Job\2025 Taha\Iraq_2025"
         uploaded_files_names.append("Asia_Cell_gsm.csv")
         uploaded_files_names.append("Zain_gsm.csv")
-        dataframes.append(pd.read_csv(path + r"\Asia_Cell_gsm.csv", low_memory=False))
-        dataframes.append(pd.read_csv(path + r"\Zain_gsm.csv", low_memory=False))
+        dataframes.append(pd.read_csv(r"Asia_Cell_gsm.csv", low_memory=False))
+        dataframes.append(pd.read_csv(r"Zain_gsm.csv", low_memory=False))
 
         df_combined = pd.concat(dataframes, ignore_index=False)
 
@@ -443,8 +443,8 @@ def WCDMA3G_coverage():
         path = r"C:\Users\barba\Documents\01_Job\2025 Taha\Iraq_2025"
         uploaded_files_names.append("Asia_Cell_3g.csv")
         uploaded_files_names.append("Zain.csv")
-        dataframes.append(pd.read_csv(path + r"\Asia_Cell_3g.csv", low_memory=False))
-        dataframes.append(pd.read_csv(path + r"\Zain_3g.csv", low_memory=False))
+        dataframes.append(pd.read_csv(r"Asia_Cell_3g.csv", low_memory=False))
+        dataframes.append(pd.read_csv(r"Zain_3g.csv", low_memory=False))
 
         df_combined = pd.concat(dataframes, ignore_index=False)
 
@@ -713,3 +713,4 @@ def data_kpi_http_ul():
         styled_ul = df_ul.style.set_table_styles(header_style)
         st.write("### 📤 Uplink (UL) KPIs")
         st.table(styled_ul)
+
