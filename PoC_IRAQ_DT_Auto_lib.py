@@ -69,7 +69,9 @@ def parameter_plot_single(df_pre,parameter,chart_type,uploaded_files_name,lat,lo
     import pydeck as pdk
     i=0
 
-    sel_columns = ["Date Time", "Latitude", "Longitude", parameter, "NR Serving Beam 1 NRARFCN DL", "NR Serving Beam 1 Cell Identity", "NR Serving Beam 1 Band", "NR Serving Beam 1 Bandwidth DL", ]
+    sel_columns = ["Date Time", "Latitude", "Longitude", parameter, "NR Serving Beam 1 NRARFCN DL",
+        "NR Serving Beam 1 Cell Identity", "NR Serving Beam 1 Band", "NR Serving Beam 1 Bandwidth DL",
+        "Time", "Latitude", "Longitude", "BCCH - .Server", "BCCH ARFCN"]
     data_list = [
     "NR Serving Cell SS RSRQ Top #1",
     "NR Serving Cell SS RSRP Top #1",
@@ -79,7 +81,60 @@ def parameter_plot_single(df_pre,parameter,chart_type,uploaded_files_name,lat,lo
     "LTE Serving Cell RSRP (dBm)",
     "LTE Serving Cell RS SINR (dB)",
     "LTE MAC DL Throughput (kbps)",
-    "Technology_Detail"]
+    "Technology_Detail",
+    "RxLevFull (dBm) - .Server", "RxLevSub (dBm) - .Server", "RxQual Full", "RxQual Sub", "Operator"
+    ]
+
+    data_list.remove(parameter)
+    df_1 = df_pre[sel_columns+data_list]  # ["Date Time", "Latitude", "Longitude",parameter]]  # .head(30000)
+    df = df_1[df_1[parameter].notna()]
+    df['color'] = df[parameter].apply(color_func)
+
+    layer = pdk.Layer('ScatterplotLayer', data=df, get_position='[Longitude, Latitude]', get_color="color", radius_min_pixels=3,  # Fixed point size in pixels
+        radius_max_pixels=3, pickable=True, tooltip=True)
+    view = pdk.ViewState(latitude= lat, longitude= lon, zoom=zoom_level, pitch=0)
+    deck = pdk.Deck(map_style='road', initial_view_state=view, layers=[layer], height=height_pydeck , tooltip=tooltip_1()[0])
+    # mapbox://styles/mapbox/streets-v11 , mapbox://styles/mapbox/light-v9
+
+    st.subheader(chart_type)
+    st.write(uploaded_files_name)
+    st.pydeck_chart(deck)
+def parameter_plot_single_gsm(df_pre,parameter,chart_type,uploaded_files_name,lat,lon,zoom_level,color_func,height_pydeck):
+    import streamlit as st
+    import pydeck as pdk
+    i=0
+
+    sel_columns = [parameter,
+        "Time", "Latitude", "Longitude", "BCCH - .Server", "BCCH ARFCN"]
+    data_list = [
+    "RxLevFull (dBm) - .Server", "RxLevSub (dBm) - .Server", "RxQual Full", "RxQual Sub", "Operator"
+    ]
+
+    data_list.remove(parameter)
+    df_1 = df_pre[sel_columns+data_list]  # ["Date Time", "Latitude", "Longitude",parameter]]  # .head(30000)
+    df = df_1[df_1[parameter].notna()]
+    df['color'] = df[parameter].apply(color_func)
+
+    layer = pdk.Layer('ScatterplotLayer', data=df, get_position='[Longitude, Latitude]', get_color="color", radius_min_pixels=3,  # Fixed point size in pixels
+        radius_max_pixels=3, pickable=True, tooltip=True)
+    view = pdk.ViewState(latitude= lat, longitude= lon, zoom=zoom_level, pitch=0)
+    deck = pdk.Deck(map_style='road', initial_view_state=view, layers=[layer], height=height_pydeck , tooltip=tooltip_1()[0])
+    # mapbox://styles/mapbox/streets-v11 , mapbox://styles/mapbox/light-v9
+
+    st.subheader(chart_type)
+    st.write(uploaded_files_name)
+    st.pydeck_chart(deck)
+def parameter_plot_single_3g(df_pre,parameter,chart_type,uploaded_files_name,lat,lon,zoom_level,color_func,height_pydeck):
+    import streamlit as st
+    import pydeck as pdk
+    i=0
+
+    sel_columns = [parameter,
+        "Time", "Latitude", "Longitude", "DL EARFCN"]
+    data_list = [
+    "Operator",
+    "Serving Cell RSRP (dBm)", "Serving Cell RSRQ (dB)", "Serving RSSI (dBm)"
+    ]
 
     data_list.remove(parameter)
     df_1 = df_pre[sel_columns+data_list]  # ["Date Time", "Latitude", "Longitude",parameter]]  # .head(30000)
@@ -136,8 +191,8 @@ def LTE_coverage():
         path = r"C:\Users\barba\Documents\01_Job\2024_CDR\CSV Dusseldorf"
         uploaded_files_names.append("20240715_Dusseldorf_CDRData_1N1.csv")
         uploaded_files_names.append("20240715_Dusseldorf_CDRData_O2.csv")
-        dataframes.append(pd.read_csv(r"20240715_Dusseldorf_CDRData_1N1_filtered.csv", low_memory=False))
-        dataframes.append(pd.read_csv(r"20240715_Dusseldorf_CDRData_O2_filtered.csv", low_memory=False))
+        dataframes.append(pd.read_csv(path + r"\20240715_Dusseldorf_CDRData_1N1_filtered.csv", low_memory=False))
+        dataframes.append(pd.read_csv(path + r"\20240715_Dusseldorf_CDRData_O2_filtered.csv", low_memory=False))
 
         df_combined = pd.concat(dataframes, ignore_index=False)
 
@@ -228,8 +283,8 @@ def NR_coverage():
         path = r"C:\Users\barba\Documents\01_Job\2024_CDR\CSV Dusseldorf"
         uploaded_files_names.append("20240715_Dusseldorf_CDRData_1N1.csv")
         uploaded_files_names.append("20240715_Dusseldorf_CDRData_O2.csv")
-        dataframes.append(pd.read_csv(r"20240715_Dusseldorf_CDRData_1N1_filtered.csv", low_memory=False))
-        dataframes.append(pd.read_csv(r"20240715_Dusseldorf_CDRData_O2_filtered.csv", low_memory=False))
+        dataframes.append(pd.read_csv(path + r"\20240715_Dusseldorf_CDRData_1N1_filtered.csv", low_memory=False))
+        dataframes.append(pd.read_csv(path + r"\20240715_Dusseldorf_CDRData_O2_filtered.csv", low_memory=False))
 
         df_combined = pd.concat(dataframes, ignore_index=False)
 
@@ -302,40 +357,24 @@ def GSM_coverage():
     # parameters = ["NR RSRQ", "NR RSRP", "NR SINR", "NR Throughput", "LTE RSRQ", "LTE RSRP", "LTE SINR", "LTE Throughput", "Tech Details"]
     # selected_parameters = st.multiselect("Select Parameters:", options=parameters, default=None),
 
-    selected_parameters = ["LTE RSRQ", "LTE RSRP", "LTE SINR", "LTE Throughput"]
+    # selected_parameters = ["LTE RSRQ", "LTE RSRP", "LTE SINR", "LTE Throughput"]
 
-    if st.button("Show GSM Plots and Statistics in comparison view", key = "3gplots"):
+    selected_parameters = ["GSM RxLev Full", "GSM RxLev Sub", "GSM RxQual Full", "GSM RxQual Sub"]
+
+    if st.button("Show GSM Plots and Statistics in comparison view", key = "2gplots"):
         st.title("Modulation Types vs Througput Charts")
         # uploaded_file = st.file_uploader("Choose input CSV files to process", type="csv", accept_multiple_files=True, key="u15")
 
 
         dataframes = []
         uploaded_files_names = []
-        path = r"C:\Users\barba\Documents\01_Job\2024_CDR\CSV Dusseldorf"
-        uploaded_files_names.append("20240715_Dusseldorf_CDRData_1N1.csv")
-        uploaded_files_names.append("20240715_Dusseldorf_CDRData_O2.csv")
-        dataframes.append(pd.read_csv(r"20240715_Dusseldorf_CDRData_1N1_filtered.csv", low_memory=False))
-        dataframes.append(pd.read_csv(r"20240715_Dusseldorf_CDRData_O2_filtered.csv", low_memory=False))
+        path = r"C:\Users\barba\Documents\01_Job\2025 Taha\Iraq_2025"
+        uploaded_files_names.append("Asia_Cell_gsm.csv")
+        uploaded_files_names.append("Zain_gsm.csv")
+        dataframes.append(pd.read_csv(path + r"\Asia_Cell_gsm.csv", low_memory=False))
+        dataframes.append(pd.read_csv(path + r"\Zain_gsm.csv", low_memory=False))
 
         df_combined = pd.concat(dataframes, ignore_index=False)
-
-        col1, col2, col3 = st.columns(3)
-
-        with col1:
-            df_selected = df_combined[df_combined["LTE PDSCH Modulation"].notna()]
-            cetf.plot_average_throughput_by_operator(df_selected, "LTE PDSCH Modulation", 'LTE PDSCH Phy Throughput (kbps)')
-            cetf.plot_stacked_bar_2(df_selected, "Local Operator", "LTE PDSCH Modulation")
-            cetf.plot_average_throughput_by_operator(df_selected, "LTE PDSCH Modulation", 'LTE Serving Cell RSRP (dBm)')
-
-        with col2:
-            cetf.plot_average_throughput_by_operator(df_selected, "LTE PDSCH Modulation", 'NR PDSCH Phy Throughput Total (Kbps)')
-            cetf.plot_stacked_bar_2(df_combined, "Local Operator", "Multi RAT Connectivity Mode")
-            cetf.plot_average_throughput_by_operator(df_selected, "LTE PDSCH Modulation", 'MR-DC Cell 1 SINR (dB)')
-
-        with col3:
-            cetf.plot_average_throughput_by_operator(df_selected, "LTE PDSCH Modulation", 'Multi_RAT_Phy_Throughput_DL_kbps')
-            cetf.plot_stacked_bar_2(df_selected, "Local Operator", "LTE Serving Cell Frequency Band")
-            cetf.plot_average_throughput_by_operator(df_selected, "LTE PDSCH Modulation", 'LTE Serving Cell RS SINR (dB)')
 
         # Plots part
 
@@ -357,11 +396,11 @@ def GSM_coverage():
 
             with col1:
                 pidal2.plot_color_patches(color_patches)
-                parameter_plot_single(dataframes[0], parameter, chart_type, uploaded_files_names[0], lat, lon, zoom_level, color_function, height_pydeck)
+                parameter_plot_single_gsm(dataframes[0], parameter, chart_type, uploaded_files_names[0], lat, lon, zoom_level, color_function, height_pydeck)
                 # dataframes[0].to_csv(r"C:\Users\barba\Downloads\20240715_Dusseldorf_CDRData_1N1_short.csv")
             with col2:
                 pidal2.plot_color_patches(color_patches)
-                parameter_plot_single(dataframes[1], parameter, chart_type, uploaded_files_names[1], lat, lon, zoom_level, color_function, height_pydeck)
+                parameter_plot_single_gsm(dataframes[1], parameter, chart_type, uploaded_files_names[1], lat, lon, zoom_level, color_function, height_pydeck)
                 # dataframes[1].to_csv(r"C:\Users\barba\Downloads\20240715_Dusseldorf_CDRData_O2_short.csv")
 def WCDMA3G_coverage():
     import PoC_IRAQ_DT_Auto_lib_2 as pidal2
@@ -392,7 +431,8 @@ def WCDMA3G_coverage():
     # parameters = ["NR RSRQ", "NR RSRP", "NR SINR", "NR Throughput", "LTE RSRQ", "LTE RSRP", "LTE SINR", "LTE Throughput", "Tech Details"]
     # selected_parameters = st.multiselect("Select Parameters:", options=parameters, default=None),
 
-    selected_parameters = ["LTE RSRQ", "LTE RSRP", "LTE SINR", "LTE Throughput"]
+    # selected_parameters = ["LTE RSRQ", "LTE RSRP", "LTE SINR", "LTE Throughput"]
+    selected_parameters = ["WCDMA RSRP", "WCDMA RSRQ", "WCDMA RSSI"]
 
     if st.button("Show 3G Plots and Statistics in comparison view", key ="3gplots2"):
         st.title("Modulation Types vs Througput Charts")
@@ -400,31 +440,13 @@ def WCDMA3G_coverage():
 
         dataframes = []
         uploaded_files_names = []
-        path = r"C:\Users\barba\Documents\01_Job\2024_CDR\CSV Dusseldorf"
-        uploaded_files_names.append("20240715_Dusseldorf_CDRData_1N1.csv")
-        uploaded_files_names.append("20240715_Dusseldorf_CDRData_O2.csv")
-        dataframes.append(pd.read_csv(r"20240715_Dusseldorf_CDRData_1N1_filtered.csv", low_memory=False))
-        dataframes.append(pd.read_csv(r"20240715_Dusseldorf_CDRData_O2_filtered.csv", low_memory=False))
+        path = r"C:\Users\barba\Documents\01_Job\2025 Taha\Iraq_2025"
+        uploaded_files_names.append("Asia_Cell_3g.csv")
+        uploaded_files_names.append("Zain.csv")
+        dataframes.append(pd.read_csv(path + r"\Asia_Cell_3g.csv", low_memory=False))
+        dataframes.append(pd.read_csv(path + r"\Zain_3g.csv", low_memory=False))
 
         df_combined = pd.concat(dataframes, ignore_index=False)
-
-        col1, col2, col3 = st.columns(3)
-
-        with col1:
-            df_selected = df_combined[df_combined["LTE PDSCH Modulation"].notna()]
-            cetf.plot_average_throughput_by_operator(df_selected, "LTE PDSCH Modulation", 'LTE PDSCH Phy Throughput (kbps)')
-            cetf.plot_stacked_bar_2(df_selected, "Local Operator", "LTE PDSCH Modulation")
-            cetf.plot_average_throughput_by_operator(df_selected, "LTE PDSCH Modulation", 'LTE Serving Cell RSRP (dBm)')
-
-        with col2:
-            cetf.plot_average_throughput_by_operator(df_selected, "LTE PDSCH Modulation", 'NR PDSCH Phy Throughput Total (Kbps)')
-            cetf.plot_stacked_bar_2(df_combined, "Local Operator", "Multi RAT Connectivity Mode")
-            cetf.plot_average_throughput_by_operator(df_selected, "LTE PDSCH Modulation", 'MR-DC Cell 1 SINR (dB)')
-
-        with col3:
-            cetf.plot_average_throughput_by_operator(df_selected, "LTE PDSCH Modulation", 'Multi_RAT_Phy_Throughput_DL_kbps')
-            cetf.plot_stacked_bar_2(df_selected, "Local Operator", "LTE Serving Cell Frequency Band")
-            cetf.plot_average_throughput_by_operator(df_selected, "LTE PDSCH Modulation", 'LTE Serving Cell RS SINR (dB)')
 
         # Plots part
 
@@ -446,10 +468,10 @@ def WCDMA3G_coverage():
 
             with col1:
                 pidal2.plot_color_patches(color_patches)
-                parameter_plot_single(dataframes[0], parameter, chart_type, uploaded_files_names[0], lat, lon, zoom_level, color_function, height_pydeck)  # dataframes[0].to_csv(r"C:\Users\barba\Downloads\20240715_Dusseldorf_CDRData_1N1_short.csv")
+                parameter_plot_single_3g(dataframes[0], parameter, chart_type, uploaded_files_names[0], lat, lon, zoom_level, color_function, height_pydeck)  # dataframes[0].to_csv(r"C:\Users\barba\Downloads\20240715_Dusseldorf_CDRData_1N1_short.csv")
             with col2:
                 pidal2.plot_color_patches(color_patches)
-                parameter_plot_single(dataframes[1], parameter, chart_type, uploaded_files_names[1], lat, lon, zoom_level, color_function, height_pydeck)  # dataframes[1].to_csv(r"C:\Users\barba\Downloads\20240715_Dusseldorf_CDRData_O2_short.csv")
+                parameter_plot_single_3g(dataframes[1], parameter, chart_type, uploaded_files_names[1], lat, lon, zoom_level, color_function, height_pydeck)  # dataframes[1].to_csv(r"C:\Users\barba\Downloads\20240715_Dusseldorf_CDRData_O2_short.csv")
 def data_kpi_general():
     import streamlit as st
     import pandas as pd
@@ -691,5 +713,3 @@ def data_kpi_http_ul():
         styled_ul = df_ul.style.set_table_styles(header_style)
         st.write("### 📤 Uplink (UL) KPIs")
         st.table(styled_ul)
-
-
