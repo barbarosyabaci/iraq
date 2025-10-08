@@ -189,8 +189,8 @@ def LTE_coverage():
         path = r"C:\Users\barba\Documents\01_Job\2024_CDR\CSV Dusseldorf"
         uploaded_files_names.append("20240715_Dusseldorf_CDRData_1N1.csv")
         uploaded_files_names.append("20240715_Dusseldorf_CDRData_O2.csv")
-        dataframes.append(pd.read_csv(path + r"\20240715_Dusseldorf_CDRData_1N1_filtered.csv", low_memory=False))
-        dataframes.append(pd.read_csv(path + r"\20240715_Dusseldorf_CDRData_O2_filtered.csv", low_memory=False))
+        dataframes.append(pd.read_csv(r"20240715_Dusseldorf_CDRData_1N1_filtered.csv", low_memory=False))
+        dataframes.append(pd.read_csv(r"20240715_Dusseldorf_CDRData_O2_filtered.csv", low_memory=False))
 
         df_combined = pd.concat(dataframes, ignore_index=False)
 
@@ -281,8 +281,8 @@ def NR_coverage():
         path = r"C:\Users\barba\Documents\01_Job\2024_CDR\CSV Dusseldorf"
         uploaded_files_names.append("20240715_Dusseldorf_CDRData_1N1.csv")
         uploaded_files_names.append("20240715_Dusseldorf_CDRData_O2.csv")
-        dataframes.append(pd.read_csv(path + r"\20240715_Dusseldorf_CDRData_1N1_filtered.csv", low_memory=False))
-        dataframes.append(pd.read_csv(path + r"\20240715_Dusseldorf_CDRData_O2_filtered.csv", low_memory=False))
+        dataframes.append(pd.read_csv(r"20240715_Dusseldorf_CDRData_1N1_filtered.csv", low_memory=False))
+        dataframes.append(pd.read_csv(r"20240715_Dusseldorf_CDRData_O2_filtered.csv", low_memory=False))
 
         df_combined = pd.concat(dataframes, ignore_index=False)
 
@@ -711,5 +711,6 @@ def data_kpi_http_ul():
         styled_ul = df_ul.style.set_table_styles(header_style)
         st.write("### 📤 Uplink (UL) KPIs")
         st.table(styled_ul)
+
 
 
