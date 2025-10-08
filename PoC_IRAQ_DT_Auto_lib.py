@@ -70,8 +70,7 @@ def parameter_plot_single(df_pre,parameter,chart_type,uploaded_files_name,lat,lo
     i=0
 
     sel_columns = ["Date Time", "Latitude", "Longitude", parameter, "NR Serving Beam 1 NRARFCN DL",
-        "NR Serving Beam 1 Cell Identity", "NR Serving Beam 1 Band", "NR Serving Beam 1 Bandwidth DL",
-        "Time", "Latitude", "Longitude", "BCCH - .Server", "BCCH ARFCN"]
+        "NR Serving Beam 1 Cell Identity", "NR Serving Beam 1 Band", "NR Serving Beam 1 Bandwidth DL"]
     data_list = [
     "NR Serving Cell SS RSRQ Top #1",
     "NR Serving Cell SS RSRP Top #1",
@@ -81,8 +80,7 @@ def parameter_plot_single(df_pre,parameter,chart_type,uploaded_files_name,lat,lo
     "LTE Serving Cell RSRP (dBm)",
     "LTE Serving Cell RS SINR (dB)",
     "LTE MAC DL Throughput (kbps)",
-    "Technology_Detail",
-    "RxLevFull (dBm) - .Server", "RxLevSub (dBm) - .Server", "RxQual Full", "RxQual Sub", "Operator"
+    "Technology_Detail"
     ]
 
     data_list.remove(parameter)
@@ -713,4 +711,5 @@ def data_kpi_http_ul():
         styled_ul = df_ul.style.set_table_styles(header_style)
         st.write("### 📤 Uplink (UL) KPIs")
         st.table(styled_ul)
+
 
