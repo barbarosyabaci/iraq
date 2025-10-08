@@ -5,11 +5,11 @@ def dashboard():
     st.markdown("---")
 
     col1, col2, col3,col4,col5 = st.columns(5)
-    col3.metric("Project Area", "GR / Dusseldorf")
-    col4.metric("Total Area(sqm)", "3,959.11")
-    col5.metric("Population", "1.6M")
-    col1.metric("Number of Sites", "406")
-    col2.metric("Number of Sectors", "1263")
+    col3.metric("Project Area", "IRAQ / ALL")
+    col4.metric("Total Area(sqm)", "438,314 km²")
+    col5.metric("Population", "46.04 M")
+    col1.metric("Number of Sites", "7542")
+    col2.metric("Number of Sectors", "22403")
 
     st.markdown("---")
 
@@ -46,7 +46,10 @@ def dashboard():
     duesseldorf_lat = 51.2277
     duesseldorf_lon = 6.7735
 
-    view_state = pdk.ViewState(latitude=duesseldorf_lat, longitude=duesseldorf_lon, zoom=12,  # adjust zoom level as needed
+    baghdad_lat = 33.3152
+    baghdad_lon = 44.3661
+
+    view_state = pdk.ViewState(latitude=baghdat_lat, longitude=baghdat_lon, zoom=5,  # adjust zoom level as needed
         pitch=0)
     # ---- Render ----
 
@@ -711,6 +714,7 @@ def data_kpi_http_ul():
         styled_ul = df_ul.style.set_table_styles(header_style)
         st.write("### 📤 Uplink (UL) KPIs")
         st.table(styled_ul)
+
 
 
 
