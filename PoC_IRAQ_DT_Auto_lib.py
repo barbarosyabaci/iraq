@@ -49,7 +49,7 @@ def dashboard():
     baghdad_lat = 33.3152
     baghdad_lon = 44.3661
 
-    view_state = pdk.ViewState(latitude=baghdat_lat, longitude=baghdat_lon, zoom=5,  # adjust zoom level as needed
+    view_state = pdk.ViewState(latitude=baghdad_lat, longitude=baghdad_lon, zoom=5,  # adjust zoom level as needed
         pitch=0)
     # ---- Render ----
 
@@ -714,6 +714,7 @@ def data_kpi_http_ul():
         styled_ul = df_ul.style.set_table_styles(header_style)
         st.write("### 📤 Uplink (UL) KPIs")
         st.table(styled_ul)
+
 
 
 
